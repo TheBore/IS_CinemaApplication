@@ -1,0 +1,54 @@
+﻿@model List<Cinema.Domain.CinemaUser>
+
+@{
+    ViewData["Title"] = "All Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        var item = Model[i];
+
+        if (i % 3 == 0)
+        {
+            @:<div class="row">
+            }
+
+
+            <div class="col-md-3 m-4">
+                <div class="card" style="width: 28rem; height: 20rem;">
+
+
+                    <div class="card-body">
+                        <h3 class="card-title">@item.Email</h3>
+                        <h6>First name: @item.FirstName</h6>
+                        <h6>Last name: @item.LastName</h6>
+                        <h6>User Name: @item.UserName</h6>
+                        <h6>Role: @item.Role</h6>
+                    </div>
+
+                    <div class="card-footer">
+                       @if(item.Role.Equals("Administrator"))
+                        { 
+                        <a asp-controller="Account" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Make Standard User</a>
+                        }
+                        else {
+                        <a asp-controller="Account" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-danger">Make Administrator</a>
+                        }
+
+                    </div>
+                </div>
+            <br />
+            </div>
+
+
+
+            if (i % 3 == 2)
+            {
+            @:</div>
+        }
+    }
+
+</div>

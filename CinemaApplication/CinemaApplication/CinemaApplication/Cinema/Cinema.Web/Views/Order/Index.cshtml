@@ -1,0 +1,52 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Cinema.Domain.CinemaUser> SignInManager
+@inject UserManager<Cinema.Domain.CinemaUser> UserManager
+
+@model List<Cinema.Domain.DomainModels.Order>
+
+    <div class="container">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @if (User.IsInRole("Administrator"))
+            {
+                <div class="row">
+                    <a class="btn btn-outline-warning" asp-controller="Order" asp-action="ExportAllOrders">Export Orders</a>
+                </div>
+            }
+        }
+
+                <table class="table mt-5">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Costumer Details</th>
+                            <th scope="col">Number of tickets</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            var item = Model[i];
+
+                            <tr>
+                                <th scope="row">@(i+1)</th>
+                                <td>@item.User.Email</td>
+                                <td>@item.TicketInOrders.Count()</td>
+                                <td><a class="btn btn-outline-dark" asp-action="Details" asp-route-id="@item.Id">Details</a></td>
+                                <td><a class="btn btn-outline-dark" asp-action="CreateInvoice" asp-route-id="@item.Id">Create Invoice</a></td>
+                            </tr>
+
+                        }
+                    </tbody>
+
+
+                </table>
+
+            </div>
